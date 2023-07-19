@@ -1,5 +1,4 @@
-const { query } = require('express');
-const Product = require('../models/product');
+const Product = require('../models/productModel');
 
 const getAllProductsStatic = async (req, res) => {
     const products = await Product.find({})

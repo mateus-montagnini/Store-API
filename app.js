@@ -1,16 +1,18 @@
 // 'g  G  h  H ""'
 require('dotenv').config();
-
 require('express-async-errors');
-
 const express = require('express');
 const app = express();
+const PORT = process.env.PORT
 
 const connectDB = require('./db/connect');
-const productsRouter = require('./routes/products');
+const productsRouter = require('./routes/productsRoute');
 
 const notFoundMiddleware = require('./middleware/not-found');
 const errorMiddleware = require('./middleware/error-handler');
+
+//db connection
+connectDB();
 
 // middleware
 app.use(express.json());
@@ -28,15 +30,5 @@ app.use('/api/v1/products', productsRouter);
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
-const PORT = process.env.PORT || 3000;
 
-const start = async () => {
-    try {
-    await connectDB(process.env.MONGO_URI)
-    app.listen(PORT, console.log(`Listening on port: ${PORT}`))
-    } catch (error) {
-        
-    }
-}
-
-start();
+app.listen(PORT, () => console.log(`Listenin on port: ${PORT}`))
